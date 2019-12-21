@@ -1,0 +1,3 @@
+usr/local/bin/abetd usr/bin
+usr/local/bin/abet-cli usr/bin
+debian/examples/abet.conf etc/abet

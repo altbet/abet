@@ -1,0 +1,37 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/abet_bg.qm</file>
+        <file alias="ca">locale/abet_ca.qm</file>
+        <file alias="cs">locale/abet_cs.qm</file>
+        <file alias="da">locale/abet_da.qm</file>
+        <file alias="de">locale/abet_de.qm</file>
+        <file alias="en">locale/abet_en.qm</file>
+        <file alias="en_GB">locale/abet_en_GB.qm</file>
+        <file alias="en_US">locale/abet_en_US.qm</file>
+        <file alias="eo">locale/abet_eo.qm</file>
+        <file alias="es">locale/abet_es.qm</file>
+        <file alias="es_ES">locale/abet_es_ES.qm</file>
+        <file alias="fi">locale/abet_fi.qm</file>
+        <file alias="fr_FR">locale/abet_fr_FR.qm</file>
+        <file alias="hi_IN">locale/abet_hi_IN.qm</file>
+        <file alias="hr">locale/abet_hr.qm</file>
+        <file alias="hr_HR">locale/abet_hr_HR.qm</file>
+        <file alias="it">locale/abet_it.qm</file>
+        <file alias="ja">locale/abet_ja.qm</file>
+        <file alias="ko_KR">locale/abet_ko_KR.qm</file>
+        <file alias="lt_LT">locale/abet_lt_LT.qm</file>
+        <file alias="nl">locale/abet_nl.qm</file>
+        <file alias="pl">locale/abet_pl.qm</file>
+        <file alias="pt">locale/abet_pt.qm</file>
+        <file alias="pt_BR">locale/abet_pt_BR.qm</file>
+        <file alias="ro_RO">locale/abet_ro_RO.qm</file>
+        <file alias="ru">locale/abet_ru.qm</file>
+        <file alias="sk">locale/abet_sk.qm</file>
+        <file alias="sv">locale/abet_sv.qm</file>
+        <file alias="tr">locale/abet_tr.qm</file>
+        <file alias="uk">locale/abet_uk.qm</file>
+        <file alias="vi">locale/abet_vi.qm</file>
+        <file alias="zh_CN">locale/abet_zh_CN.qm</file>
+        <file alias="zh_TW">locale/abet_zh_TW.qm</file>
+    </qresource>
+</RCC>

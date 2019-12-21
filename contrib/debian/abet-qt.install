@@ -1,0 +1,6 @@
+usr/local/bin/abet-qt usr/bin
+share/pixmaps/abet32.xpm usr/share/pixmaps
+share/pixmaps/abet16.xpm usr/share/pixmaps
+share/pixmaps/abet128.png usr/share/pixmaps
+debian/abet-qt.desktop usr/share/applications
+debian/abet-qt.protocol usr/share/kde4/services/
