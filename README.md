@@ -58,6 +58,6 @@ About ABET cryptocurrency
 License
 =====
 
-<p>ABET Core is released under the terms of the MIT license. See [COPYING](COPYING) for more information or see https://opensource.org/licenses/MIT.</p>
+<p>ABET Core is released under the terms of the MIT license. See https://github.com/altbet/abet/blob/master/COPYING for more information or see https://opensource.org/licenses/MIT.</p>
 
 ABET uses components from PIVX Core, which uses components of both Bitcoin and DASH.
