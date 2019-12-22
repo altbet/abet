@@ -498,9 +498,35 @@ void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet,
         // Create empty abet.conf if it does not exist
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
         if (configFile != NULL)
-            fclose(configFile);
-        return; // Nothing to read, so just return
-    }
+		{
+			std::string strHeader = 
+				"# Altbets Configuration File!\n"
+				"# If you need aditional addnodes vist site below.\n"
+				"# https://explorer.masternodes.online/currencies/ABET/ \n"
+				"addnode = 116.203.176.91:8322\n"
+				"addnode = 81.222.228.66 : 8322\n"
+				"addnode = 149.28.58.187 : 8322\n"
+				"addnode = 95.179.155.105 : 8322\n"
+				"addnode = 46.4.178.73 : 8322\n"
+				"addnode = 136.244.80.244 : 8322\n"
+				"addnode = 176.9.175.163 : 8322\n"
+				"addnode = 95.216.82.97 : 8322\n"
+				"addnode = 45.77.51.174 : 8322\n"
+				"addnode = 45.63.82.192 : 8322\n"
+				"addnode = 149.28.58.187 : 8322\n"
+				"addnode = 103.129.221.37 : 8322\n"
+				"addnode = 45.32.163.214 : 8322\n"
+				"addnode = 193.160.214.165 : 8322\n"
+				"addnode = 60.227.50.55 : 8322\n"
+				"addnode = 217.69.13.180 : 8322\n"
+				"addnode = 144.202.107.249 : 8322\n"
+				"addnode = 149.28.195.232 : 8322\n";
+			fwrite(strHeader.c_str(), std::strlen(strHeader.c_str()), 1, configFile);
+			fclose(configFile);
+			streamConfig.open(GetConfigFile());
+		}
+		//return; // Nothing to read, so just return
+	}
 
     std::set<std::string> setOptions;
     setOptions.insert("*");
