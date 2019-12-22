@@ -45,7 +45,6 @@ public:
     explicit CoinControlDialog(QWidget* parent = nullptr, bool fMultisigEnabled = false);
     ~CoinControlDialog();
 
-	void CheckDialogLablesUpdated();
     void setModel(WalletModel* model);
     void updateDialogLabels();
 
