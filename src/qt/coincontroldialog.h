@@ -118,8 +118,6 @@ private slots:
     void select_250();
     void buttonToggleLockClicked();
     void updateLabelLocked();
-public Q_SLOTS:
-    void updateInfoInDialog();
 };
 
 #endif // BITCOIN_QT_COINCONTROLDIALOG_H
