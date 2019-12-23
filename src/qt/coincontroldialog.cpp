@@ -164,9 +164,9 @@ CoinControlDialog::CoinControlDialog(QWidget* parent, bool fMultisigEnabled) : Q
     ui->treeWidget->setColumnWidth(COLUMN_PRIORITY, 100);
     ui->treeWidget->setColumnHidden(COLUMN_TXHASH, true);         // store transacton hash in this column, but dont show it
     ui->treeWidget->setColumnHidden(COLUMN_VOUT_INDEX, true);     // store vout index in this column, but dont show it
-    ui->treeWidget->setColumnHidden(COLUMN_AMOUNT_INT64, true);   // store amount int64 in this column, but dont show it
-    ui->treeWidget->setColumnHidden(COLUMN_PRIORITY_INT64, true); // store priority int64 in this column, but dont show it
-    ui->treeWidget->setColumnHidden(COLUMN_DATE_INT64, true);     // store date int64 in this column, but dont show it
+    ui->treeWidget->setColumnHidden(COLUMN_AMOUNT, true);         // store amount int64 in this column, but dont show it
+    ui->treeWidget->setColumnHidden(COLUMN_PRIORITY, true); // store priority int64 in this column, but dont show it
+    ui->treeWidget->setColumnHidden(COLUMN_DATE, true);     // store date int64 in this column, but dont show it
     ui->num_box->setRange(1, 9999); // set the range
     ui->select_50->setVisible(false); // set the advanced features to hidden 
     ui->select_100->setVisible(false);
