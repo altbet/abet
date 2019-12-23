@@ -16,7 +16,6 @@
 #include <QPoint>
 #include <QString>
 #include <QTreeWidgetItem>
-
 class WalletModel;
 
 class MultisigDialog;
@@ -63,7 +62,6 @@ private:
     int sortColumn;
     Qt::SortOrder sortOrder;
     bool fMultisigEnabled;
-
     QMenu* contextMenu;
     QTreeWidgetItem* contextMenuItem;
     QAction* copyTransactionHashAction;
@@ -105,10 +103,19 @@ private slots:
     void clipboardChange();
     void radioTreeMode(bool);
     void radioListMode(bool);
+    void toggled(bool);
     void viewItemChanged(QTreeWidgetItem*, int);
     void headerSectionClicked(int);
     void buttonBoxClicked(QAbstractButton*);
     void buttonSelectAllClicked();
+    void HideInputAutoSelection();
+    void ShowInputAutoSelection();
+    void greater();
+    void Less();
+    void Equal();
+    void select_50();
+    void select_100();
+    void select_250();
     void buttonToggleLockClicked();
     void updateLabelLocked();
 };
