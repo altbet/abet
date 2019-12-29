@@ -98,9 +98,9 @@ bool fLiteMode = false;
 bool fEnableSwiftTX = true;
 int nSwiftTXDepth = 5;
 // Automatic Zerocoin minting
-bool fEnableZeromint = true;
-bool fEnableAutoConvert = true;
-int nZeromintPercentage = 10;
+bool fEnableZeromint = false;
+bool fEnableAutoConvert = false;
+int nZeromintPercentage = 0;
 int nPreferredDenom = 0;
 const int64_t AUTOMINT_DELAY = (60 * 5); // Wait at least 5 minutes until Automint starts
 
@@ -499,28 +499,19 @@ void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet,
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
         if (configFile != NULL)
 		{
-			std::string strHeader = 
-				"# Altbets Configuration File!\n"
-				"# If you need aditional addnodes vist site below.\n"
-				"# https://explorer.masternodes.online/currencies/ABET/ \n"
-				"addnode = 116.203.176.91:8322\n"
-				"addnode = 81.222.228.66 : 8322\n"
-				"addnode = 149.28.58.187 : 8322\n"
-				"addnode = 95.179.155.105 : 8322\n"
-				"addnode = 46.4.178.73 : 8322\n"
-				"addnode = 136.244.80.244 : 8322\n"
-				"addnode = 176.9.175.163 : 8322\n"
-				"addnode = 95.216.82.97 : 8322\n"
-				"addnode = 45.77.51.174 : 8322\n"
-				"addnode = 45.63.82.192 : 8322\n"
-				"addnode = 149.28.58.187 : 8322\n"
-				"addnode = 103.129.221.37 : 8322\n"
-				"addnode = 45.32.163.214 : 8322\n"
-				"addnode = 193.160.214.165 : 8322\n"
-				"addnode = 60.227.50.55 : 8322\n"
-				"addnode = 217.69.13.180 : 8322\n"
-				"addnode = 144.202.107.249 : 8322\n"
-				"addnode = 149.28.195.232 : 8322\n";
+            std::string strHeader =
+                "# Altbets Configuration File!\n"
+                "# If you need aditional addnodes vist site below.\n"
+                "# https://explorer.masternodes.online/currencies/ABET/ \n"
+                "addnode = 185.141.61.104 : 8322\n"
+                "addnode = 185.206.144.217 : 8322\n"
+                "addnode = 45.76.33.138 : 8322\n"
+                "addnode = 95.179.218.173 : 8322\n"
+                "addnode = 185.206.147.210 : 8322\n"
+                "addnode = 108.61.171.107 : 8322\n"
+                "addnode = 63.209.32.202 : 8322\n"
+                "addnode = 144.202.2.218 : 8322\n"
+                "addnode = 173.199.118.20 : 8322\n";
 			fwrite(strHeader.c_str(), std::strlen(strHeader.c_str()), 1, configFile);
 			fclose(configFile);
 			streamConfig.open(GetConfigFile());
