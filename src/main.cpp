@@ -3132,6 +3132,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
 
+	    if (7200 == pindex->nHeight || 72000 == pindex->nHeight) {
+        // Account for that one wrong block
+        LogPrintf("ConnectBlock(): You took too much man, too much, too much but also Ignoring overmint at block %d\n", pindex->nHeight);
+        nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
+    }
+
     //Check that the block does not overmint
     if (!IsBlockValueValid(block, nExpectedMint, pindex->nMint)) {
         return state.DoS(100, error("ConnectBlock() : reward pays too much (actual=%s vs limit=%s)",
