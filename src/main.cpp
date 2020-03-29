@@ -3149,6 +3149,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
 
+	if ((block.nTime == Params().OvermintBlockTime()) && (block.nBits == Params().OvermintBlocknBits())) {
+        LogPrintf("ConnectBlock(): You took too much man, too much, too much but also Ignoring overmint at block %d\n", pindex->nHeight);
+        nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
+    }
+
 	/*if (7200 == pindex->nHeight || 72000 == pindex->nHeight) {
         // Account for that one wrong block
         LogPrintf("ConnectBlock(): You took too much man, too much, too much but also Ignoring overmint at block %d\n", pindex->nHeight);
@@ -6806,13 +6811,9 @@ bool static ProcessMessage(CNode* pfrom, std::string strCommand, CDataStream& vR
 //       it was the one which was commented out
 int ActiveProtocol()
 {
-    // SPORK_14 is used for 70917 (v3.4+)
-    if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT))
+    // SPORK_17 is used for 71000 (v3.4.1.0)
+    if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
-
-    // SPORK_15 was used for 70916 (v3.3+), commented out now.
-    //if (IsSporkActive(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2))
-    //        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
     return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
 }

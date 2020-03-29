@@ -132,6 +132,8 @@ public:
     int LAST_POW_BLOCK() const { return nLastPOWBlock; }
     int AbetBadBlockTime() const { return nAbetBadBlockTime; }
     int AbetBadBlocknBits() const { return nAbetBadBlocknBits; }
+    int OvermintBlockTime() const { return nOvermintBlockTime; }
+    int OvermintBlocknBits() const { return nOvermintBlocknBits; }
     int Zerocoin_StartHeight() const { return nZerocoinStartHeight; }
     int Zerocoin_Block_EnforceSerialRange() const { return nBlockEnforceSerialRange; }
     int Zerocoin_Block_RecalculateAccumulators() const { return nBlockRecalculateAccumulators; }
@@ -169,6 +171,8 @@ protected:
     int nLastPOWBlock;
     int64_t nAbetBadBlockTime;
     unsigned int nAbetBadBlocknBits;
+    int64_t nOvermintBlockTime;
+    unsigned int nOvermintBlocknBits;
     int nMasternodeCountDrift;
     int nMaturity;
     int nStakeMinDepth;
