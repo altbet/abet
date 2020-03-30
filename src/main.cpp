@@ -1995,12 +1995,9 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nHeight)
 {
-    int64_t nSubsidy = 0;
-    unsigned int nPhase = 0;
+    /*unsigned int nPhase = 0;
 
-    if (nHeight == 0)
-        return 2000000 * COIN;
-
+	if (nHeight == 0) return 2000000 * COIN;
     if (nHeight <= 7200) nPhase = 1;
     if (nHeight > 7200 && nHeight <= 72000) nPhase = 2;
     if (nHeight > 72000 && nHeight <= 136800) nPhase = 3;
@@ -2026,6 +2023,26 @@ int64_t GetBlockValue(int nHeight)
         LogPrintf("%s - currently in nPhase %d, blockreward %llu ABET\n",
                   __func__, nPhase, nSubsidy);
     }
+	*/
+    int64_t nSubsidy = 0;
+    nHeight--;
+	if (nHeight == 0){ nSubsidy = 2000000 * COIN;
+    } else if (nHeight > 1 && nHeight <= 7200)        { nSubsidy = .25 * COIN;
+    } else if (nHeight > 7200 && nHeight <= 72000)    { nSubsidy = 2.6 * COIN;
+    } else if (nHeight > 72000 && nHeight <= 136800)  { nSubsidy = 2.5 * COIN;
+    } else if (nHeight > 136800 && nHeight <= 266400) { nSubsidy = 2.4 * COIN;
+    } else if (nHeight > 266400 && nHeight <= 396000) { nSubsidy = 2.3 * COIN;
+    } else if (nHeight > 396000 && nHeight <= 655200) { nSubsidy = 2.2 * COIN;
+    } else if (nHeight > 655200 && nHeight <= 914400) { nSubsidy = 2.1 * COIN;
+    } else if (nHeight > 914400)                      { nSubsidy = 2 * COIN; }
+
+	// Check if we reached the coin max supply.
+    int64_t nMoneySupply = chainActive.Tip()->nMoneySupply;
+
+    if (nMoneySupply + nSubsidy >= Params().MaxMoneyOut())
+        nSubsidy = Params().MaxMoneyOut() - nMoneySupply;
+    if (nMoneySupply >= Params().MaxMoneyOut())
+        nSubsidy = 0;
 
     return nSubsidy;
 }
@@ -3131,6 +3148,17 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nExpectedMint = GetBlockValue(pindex->nHeight);
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
+
+	if ((block.nTime == Params().OvermintBlockTime()) && (block.nBits == Params().OvermintBlocknBits())) {
+        LogPrintf("ConnectBlock(): You took too much man, too much, too much but also Ignoring overmint at block %d\n", pindex->nHeight);
+        nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
+    }
+
+	/*if (7200 == pindex->nHeight || 72000 == pindex->nHeight) {
+        // Account for that one wrong block
+        LogPrintf("ConnectBlock(): You took too much man, too much, too much but also Ignoring overmint at block %d\n", pindex->nHeight);
+        nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
+    }*/
 
     //Check that the block does not overmint
     if (!IsBlockValueValid(block, nExpectedMint, pindex->nMint)) {
@@ -6783,13 +6811,9 @@ bool static ProcessMessage(CNode* pfrom, std::string strCommand, CDataStream& vR
 //       it was the one which was commented out
 int ActiveProtocol()
 {
-    // SPORK_14 is used for 70917 (v3.4+)
-    if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT))
+    // SPORK_17 is used for 71000 (v3.4.1.0)
+    if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
             return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
-
-    // SPORK_15 was used for 70916 (v3.3+), commented out now.
-    //if (IsSporkActive(SPORK_15_NEW_PROTOCOL_ENFORCEMENT_2))
-    //        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
     return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
 }

@@ -311,8 +311,8 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
         }
     }
 
-    CAmount blockValue = GetBlockValue(pindexPrev->nHeight + 1);
-    CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight + 1, blockValue, 0, fZPIVStake);
+    CAmount blockValue = GetBlockValue(pindexPrev->nHeight+1);
+    CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight+1, blockValue, 0, fZPIVStake);
 
     if (hasPayment) {
         if (fProofOfStake) {
