@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2019-2020 The Altbet developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -310,8 +311,8 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
         }
     }
 
-    CAmount blockValue = GetBlockValue(pindexPrev->nHeight + 1);
-    CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight + 1, blockValue, 0, fZPIVStake);
+    CAmount blockValue = GetBlockValue(pindexPrev->nHeight+1);
+    CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight+1, blockValue, 0, fZPIVStake);
 
     if (hasPayment) {
         if (fProofOfStake) {

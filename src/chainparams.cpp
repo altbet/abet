@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2019-2020 The Altbet developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -53,12 +54,22 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
-    (     0, uint256("0x00000726e77c06349eb9ca117cb1b0f06a783890ae561af1abcc11dcf043ad15"));
+    (0, uint256("0x00000726e77c06349eb9ca117cb1b0f06a783890ae561af1abcc11dcf043ad15"))
+	(1000, uint256("0xd54b5c54c4c950794c0efd28b43efbb12240df8bc7dbf1be2a2248b6207daeb8"))
+	(5000, uint256("0xe0f9bf814677e1fe9137c2a6e5ea920404ed07791353bc6b3908961afefcdf2d"))
+	(10000, uint256("0x131fa83f7937eb42fc395d085502be2c14612a2ed0abae40215a81f731f13cbc"))
+	(20000, uint256("0x82e3de3d403e2103c1bb791dc8b648733e685cd9f0569bf49e47708fe6971b17"))
+	(30000, uint256("0x55a01c69b272db48ae7ef42f82cb061bc355e1f5467e8b96817ca892fb9523e7"))
+	(40000, uint256("0x9199b15fe1cd8bfe4fee682a0fb967ca441e28a9e2225df20ec3aeeb7e6b484a"))
+	(50000, uint256("0x9946854111a6ec5764836b2664666e53aa3991d72bd0e303c9ae06f06eef65c8"))
+	(60000, uint256("0xcd7a6fa8dcc363cabbe44783b0cd6761173b5f010b512c34dad186bef37384b6"))
+	(70000, uint256("0x6f0347a2d7ba083f15d0d3b906ad18d2c7e265aa939975cde2e684276ab5e9b1"))
+	(72000, uint256("0xfa70f32193e61d87888d43d08e8a24eeede24843c8e99dffbf23b1c60abc5ea3"));
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-	1575935960, // * UNIX timestamp of last checkpoint block
-    0,    // * total number of transactions between genesis and last checkpoint
+    1585334110, // * UNIX timestamp of last checkpoint block
+    220388,     // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
@@ -143,6 +154,8 @@ public:
         nLastPOWBlock = 500;
         nAbetBadBlockTime = NEVER;
         nAbetBadBlocknBits = 0x1c056dac;
+        nOvermintBlockTime = 1585334110;
+        nOvermintBlocknBits = 0x486704385;
         nModifierUpdateBlock = 64;
         nZerocoinStartHeight = NEVER;
         nZerocoinStartTime = NEVER;

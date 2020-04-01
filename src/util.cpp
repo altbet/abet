@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2019-2020 The Altbet developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -98,9 +99,9 @@ bool fLiteMode = false;
 bool fEnableSwiftTX = true;
 int nSwiftTXDepth = 5;
 // Automatic Zerocoin minting
-bool fEnableZeromint = true;
-bool fEnableAutoConvert = true;
-int nZeromintPercentage = 10;
+bool fEnableZeromint = false;
+bool fEnableAutoConvert = false;
+int nZeromintPercentage = 0;
 int nPreferredDenom = 0;
 const int64_t AUTOMINT_DELAY = (60 * 5); // Wait at least 5 minutes until Automint starts
 
@@ -498,9 +499,26 @@ void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet,
         // Create empty abet.conf if it does not exist
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
         if (configFile != NULL)
-            fclose(configFile);
-        return; // Nothing to read, so just return
-    }
+		{
+            std::string strHeader =
+                "# Altbets Configuration File!\n"
+                "# If you need aditional addnodes vist site below.\n"
+                "# https://explorer.masternodes.online/currencies/ABET/ \n"
+                "addnode = 185.141.61.104 : 8322\n"
+                "addnode = 185.206.144.217 : 8322\n"
+                "addnode = 45.76.33.138 : 8322\n"
+                "addnode = 95.179.218.173 : 8322\n"
+                "addnode = 185.206.147.210 : 8322\n"
+                "addnode = 108.61.171.107 : 8322\n"
+                "addnode = 63.209.32.202 : 8322\n"
+                "addnode = 144.202.2.218 : 8322\n"
+                "addnode = 173.199.118.20 : 8322\n";
+			fwrite(strHeader.c_str(), std::strlen(strHeader.c_str()), 1, configFile);
+			fclose(configFile);
+			streamConfig.open(GetConfigFile());
+		}
+		//return; // Nothing to read, so just return
+	}
 
     std::set<std::string> setOptions;
     setOptions.insert("*");

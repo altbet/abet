@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2019-2020 The Altbet developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -131,6 +132,8 @@ public:
     int LAST_POW_BLOCK() const { return nLastPOWBlock; }
     int AbetBadBlockTime() const { return nAbetBadBlockTime; }
     int AbetBadBlocknBits() const { return nAbetBadBlocknBits; }
+    int OvermintBlockTime() const { return nOvermintBlockTime; }
+    int OvermintBlocknBits() const { return nOvermintBlocknBits; }
     int Zerocoin_StartHeight() const { return nZerocoinStartHeight; }
     int Zerocoin_Block_EnforceSerialRange() const { return nBlockEnforceSerialRange; }
     int Zerocoin_Block_RecalculateAccumulators() const { return nBlockRecalculateAccumulators; }
@@ -168,6 +171,8 @@ protected:
     int nLastPOWBlock;
     int64_t nAbetBadBlockTime;
     unsigned int nAbetBadBlocknBits;
+    int64_t nOvermintBlockTime;
+    unsigned int nOvermintBlocknBits;
     int nMasternodeCountDrift;
     int nMaturity;
     int nStakeMinDepth;
