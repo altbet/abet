@@ -41,6 +41,11 @@ public:
 
     inline void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
     {
+
+
+        QSettings settings;
+        QString theme = settings.value("theme", "default").toString();
+
         painter->save();
 
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
@@ -67,7 +72,12 @@ public:
             foreground = brush.color();
         }
 
-        painter->setPen(foreground);
+
+        if (theme.operator==("light")) {
+            painter->setPen(QColor(29, 29, 29));
+        }else{
+            painter->setPen(QColor(255, 255, 255));
+        }
         QRect boundingRect;
         painter->drawText(addressRect, Qt::AlignLeft | Qt::AlignVCenter, address, &boundingRect);
 
@@ -77,17 +87,24 @@ public:
             iconWatchonly.paint(painter, watchonlyRect);
         }
 
-        if (amount < 0)
-            foreground = COLOR_NEGATIVE;
-
-        painter->setPen(foreground);
+        if (theme.operator==("light")) {
+            painter->setPen(QColor(29, 29, 29));
+        }else{
+            painter->setPen(QColor(255, 255, 255));
+        }
         QString amountText = BitcoinUnits::formatWithUnit(unit, amount, true, BitcoinUnits::separatorAlways);
         if (!confirmed) {
             amountText = QString("[") + amountText + QString("]");
         }
         painter->drawText(amountRect, Qt::AlignRight | Qt::AlignVCenter, amountText);
 
-        painter->setPen(COLOR_BLACK);
+
+        if (theme.operator==("light")) {
+            painter->setPen(QColor(29, 29, 29));
+        }else{
+            painter->setPen(QColor(255, 255, 255));
+        }
+
         painter->drawText(amountRect, Qt::AlignLeft | Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
 
         painter->restore();

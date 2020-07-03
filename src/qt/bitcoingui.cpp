@@ -57,6 +57,21 @@
 #include <QToolBar>
 #include <QUrlQuery>
 #include <QVBoxLayout>
+#include <QFontDatabase>
+
+#include "QtNetwork/QNetworkInterface"
+#include <QNetworkReply>
+#include <QDesktopServices>
+
+
+#if QT_VERSION < 0x050000
+#include <QTextDocument>
+#include <QUrl>
+#else
+#include <QUrlQuery>
+#endif
+
+
 
 const QString BitcoinGUI::DEFAULT_WALLET = "~Default";
 
@@ -88,6 +103,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             multisigSignAction(0),
                                                                             aboutAction(0),
                                                                             receiveCoinsAction(0),
+                                                                            governanceAction(0),
                                                                             optionsAction(0),
                                                                             toggleHideAction(0),
                                                                             encryptWalletAction(0),
@@ -110,6 +126,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
     this->setStyleSheet(GUIUtil::loadStyleSheet());
 
     GUIUtil::restoreWindowGeometry("nWindow", QSize(850, 550), this);
+    QFontDatabase::addApplicationFont(":/fonts/font");
 
     QString windowTitle = tr("Abet") + " - ";
 #ifdef ENABLE_WALLET
@@ -275,6 +292,17 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
     connect(timerAutoMintIcon, SIGNAL(timeout()), this, SLOT(setAutoMintStatus()));
     timerAutoMintIcon->start(10000);
     setAutoMintStatus();
+
+
+#ifdef ENABLE_WALLET
+if (enableWallet) {
+    QTimer* timerCheckVersion = new QTimer(this);
+    connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
+    timerCheckVersion->start(1000 * 60 * 60 * 6);
+    Checkversion();
+}
+#endif // ENABLE_WALLET
+
 }
 
 BitcoinGUI::~BitcoinGUI()
@@ -295,7 +323,13 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 {
     QActionGroup* tabGroup = new QActionGroup(this);
 
-    overviewAction = new QAction(QIcon(":/icons/overview"), tr("&Overview"), this);
+    QSettings settings;
+    QString theme = settings.value("theme", "default").toString();
+    QString themeDir = QString(":/icons");
+    if (theme.operator==("light")) {
+        themeDir = themeDir + QString("_light");
+    }
+    overviewAction = new QAction(QIcon(themeDir+QString("/overview")), tr("&Overview"), this);
     overviewAction->setStatusTip(tr("Show general overview of wallet"));
     overviewAction->setToolTip(overviewAction->statusTip());
     overviewAction->setCheckable(true);
@@ -306,7 +340,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 #endif
     tabGroup->addAction(overviewAction);
 
-    sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send"), this);
+    sendCoinsAction = new QAction(QIcon(themeDir+QString("/send")), tr("&Send"), this);
     sendCoinsAction->setStatusTip(tr("Send coins to a ABET address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
@@ -317,7 +351,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 #endif
     tabGroup->addAction(sendCoinsAction);
 
-    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
+    receiveCoinsAction = new QAction(QIcon(themeDir+QString("/receiving_addresses")), tr("&Receive"), this);
     receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and abet: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
@@ -328,7 +362,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 #endif
     tabGroup->addAction(receiveCoinsAction);
 
-    historyAction = new QAction(QIcon(":/icons/history"), tr("&Transactions"), this);
+    historyAction = new QAction(QIcon(themeDir+QString("/history")), tr("&Transactions"), this);
     historyAction->setStatusTip(tr("Browse transaction history"));
     historyAction->setToolTip(historyAction->statusTip());
     historyAction->setCheckable(true);
@@ -341,9 +375,9 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
 
 #ifdef ENABLE_WALLET
 
-    QSettings settings;
+    // QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
-        masternodeAction = new QAction(QIcon(":/icons/masternodes"), tr("&Masternodes"), this);
+        masternodeAction = new QAction(QIcon(themeDir+QString("/masternodes")), tr("&Masternodes"), this);
         masternodeAction->setStatusTip(tr("Browse masternodes"));
         masternodeAction->setToolTip(masternodeAction->statusTip());
         masternodeAction->setCheckable(true);
@@ -357,6 +391,17 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(gotoMasternodePage()));
     }
 
+	governanceAction = new QAction(QIcon(themeDir+QString("/governance" )), tr("&Governance"), this);
+    governanceAction->setStatusTip(tr("Show Proposals"));
+    governanceAction->setToolTip(governanceAction->statusTip());
+    governanceAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    governanceAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
+#else
+    governanceAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+#endif
+    tabGroup->addAction(governanceAction);
+
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -367,6 +412,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
+    connect(governanceAction, SIGNAL(triggered()), this, SLOT(gotoGovernancePage()));
 #endif // ENABLE_WALLET
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
@@ -534,36 +580,40 @@ void BitcoinGUI::createMenuBar()
 void BitcoinGUI::createToolBars()
 {
     if (walletFrame) {
+
         QToolBar* toolbar = new QToolBar(tr("Tabs toolbar"));
         toolbar->setObjectName("Main-Toolbar"); // Name for CSS addressing
-        toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-//        // Add some empty space at the top of the toolbars
-//        QAction* spacer = new QAction(this);
-//        toolbar->addAction(spacer);
-//        toolbar->widgetForAction(spacer)->setObjectName("ToolbarSpacer");
-        
-        QWidget *spacer = new QWidget(this);	
-        spacer->setMinimumHeight(20);	
-        spacer->setMaximumHeight(20);	
-        //spacer->setSizePolicy(QSizePolicy::Fixed);	
-        toolbar->addWidget(spacer);	
-        QLabel* header = new QLabel();	
-        header->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);	
-        header->setPixmap(QPixmap(":/icons/logo")); 	
+        toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+
+        QWidget *spacer = new QWidget(this);
+        spacer->setMinimumHeight(20);
+        spacer->setMaximumHeight(20);
+        toolbar->addWidget(spacer);
+        QLabel* header = new QLabel();
+        header->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+        QSettings settings;
+        QString theme = settings.value("theme", "default").toString();
+        if (theme.operator==("light")) {
+            header->setPixmap(QPixmap(":/icons_light/logo"));
+        }else{
+            header->setPixmap(QPixmap(":/icons/logo"));
+        }
 
         toolbar->addWidget(header);
-        
+
         toolbar->addAction(overviewAction);
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
-        QSettings settings;
+
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
+        toolbar->addAction(governanceAction);
         toolbar->setMovable(false); // remove unused icon in upper left corner
         toolbar->setOrientation(Qt::Vertical);
-        toolbar->setIconSize(QSize(240, 60));
+        toolbar->setIconSize(QSize(220, 40));
         overviewAction->setChecked(true);
 
         /** Create additional container for toolbar and walletFrame and make it the central widget.
@@ -807,6 +857,8 @@ void BitcoinGUI::gotoMasternodePage()
 
 void BitcoinGUI::gotoGovernancePage()
 {
+    governanceAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoGovernancePage();
 }
 
 void BitcoinGUI::gotoReceiveCoinsPage()
@@ -866,6 +918,40 @@ void BitcoinGUI::gotoBlockExplorerPage()
     if (walletFrame) walletFrame->gotoBlockExplorerPage();
 }
 
+void BitcoinGUI::Checkversion()
+{
+    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3396
+    QNetworkAccessManager* managercheckversion = new QNetworkAccessManager(this);
+    QString versionCheckUrl = QString("https://altbet.io/versioninfostable/%1.txt").arg(QString::fromStdString(FormatFullVersion()));
+
+    connect(managercheckversion, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
+
+    managercheckversion->get(QNetworkRequest(QUrl(versionCheckUrl)));
+}
+
+void BitcoinGUI::replyFinishedcheckversion(QNetworkReply *reply)
+{
+    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3110
+    std::string replystr = reply->readAll().toStdString();
+    if (replystr != "") {
+        #ifdef WIN32
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::information(this,  tr("New version available"),
+                                                    tr("This new version of the wallet is now available on: ") + "\r\n" +
+                                                    QString::fromStdString(replystr) + "\r\n" +
+                                                    tr("Click YES if you want go to download page: "),
+                                                    QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                QDesktopServices::openUrl(QUrl( QString::fromStdString(replystr) ));
+            }
+        #else
+            QMessageBox::information(this, tr("New version available"),
+                                        tr("This new version of the wallet is now available on: ") + "\r\n" +
+                                        QString::fromStdString(replystr));
+        #endif
+
+    }
+}
 #endif // ENABLE_WALLET
 
 void BitcoinGUI::setNumConnections(int count)

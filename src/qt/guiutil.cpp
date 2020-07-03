@@ -802,7 +802,10 @@ bool isExternal(QString theme)
     if (theme.isEmpty())
         return false;
 
-    return (theme.operator!=("default"));
+    if (theme.operator==("default") || theme.operator==("light"))
+        return false;
+
+    return true;
 }
 
 // Open CSS when configured
@@ -811,7 +814,7 @@ QString loadStyleSheet()
     QString styleSheet;
     QSettings settings;
     QString cssName;
-    QString theme = settings.value("theme", "").toString();
+    QString theme = settings.value("theme", "default").toString();
 
     if (isExternal(theme)) {
         // External CSS
@@ -823,9 +826,12 @@ QString loadStyleSheet()
         settings.setValue("fCSSexternal", false);
         if (!theme.isEmpty()) {
             cssName = QString(":/css/") + theme;
+            settings.setValue("theme", theme);
+
         } else {
             cssName = QString(":/css/default");
             settings.setValue("theme", "default");
+
         }
     }
 

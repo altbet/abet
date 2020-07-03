@@ -4,7 +4,6 @@
         <file alias="address-book">res/icons/address-book.png</file>
         <file alias="quit">res/icons/quit.png</file>
         <file alias="send">res/icons/send.png</file>
-        <file alias="send_dark">res/icons/send_dark.png</file>
         <file alias="connect_0">res/icons/connect0_16.png</file>
         <file alias="connect_1">res/icons/connect1_16.png</file>
         <file alias="connect_2">res/icons/connect2_16.png</file>
@@ -23,7 +22,6 @@
         <file alias="eye_plus">res/icons/eye_plus.png</file>
         <file alias="options">res/icons/configure.png</file>
         <file alias="receiving_addresses">res/icons/receive.png</file>
-        <file alias="receiving_addresses_dark">res/icons/receive_dark.png</file>
         <file alias="privacy">res/icons/privacy.png</file>
         <file alias="editpaste">res/icons/editpaste.png</file>
         <file alias="editcopy">res/icons/editcopy.png</file>
@@ -35,7 +33,6 @@
         <file alias="overview">res/icons/overview.png</file>
         <file alias="masternodes">res/icons/masternodes.png</file>
         <file alias="governance">res/icons/governance.png</file>
-        <file alias="governance_dark">res/icons/governance_dark.png</file>
         <file alias="export">res/icons/export.png</file>
         <file alias="synced">res/icons/synced.png</file>
         <file alias="remove">res/icons/remove.png</file>
@@ -66,20 +63,20 @@
         <file alias="abstainvote">res/icons/abstainvote.png</file>
         <file alias="onion">res/icons/onion.png</file>
         <file alias="logo">res/icons/logo.png</file>
-        <file alias="toolbarbg">res/icons/toolbarbg.png</file>
-        <file alias="balancebg">res/icons/balancebg.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="default">res/css/default.css</file>
+        <file alias="light">res/css/light.css</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="font">res/font/Ubuntu-R.ttf</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
+        <file alias="bg">res/images/bg.png</file>
         <file alias="abet_logo_horizontal">res/images/abet_logo_horizontal.png</file>
-        <file alias="downArrow">res/images/downArrow_dark.png</file>
-        <file alias="downArrow_small">res/images/downArrow_small_dark.png</file>
-        <file alias="downArrow_small_white">res/images/downArrow_small.png</file>
-        <file alias="upArrow_small">res/images/upArrow_small_dark.png</file>
-        <file alias="upArrow_small_white">res/images/upArrow_small.png</file>
+        <file alias="downArrow">res/images/downArrow.png</file>
+        <file alias="upArrow">res/images/upArrow.png</file>
         <file alias="leftArrow_small">res/images/leftArrow_small_dark.png</file>
         <file alias="rightArrow_small">res/images/rightArrow_small_dark.png</file>
         <file alias="qtreeview_selected">res/images/qtreeview_selected.png</file>
@@ -123,5 +120,19 @@
         <file alias="spinner-032">res/movies/spinner-032.png</file>
         <file alias="spinner-033">res/movies/spinner-033.png</file>
         <file alias="spinner-034">res/movies/spinner-034.png</file>
+    </qresource>
+
+    <qresource prefix="/icons_light">
+    	<file alias="governance">res/light/icons/governance.png</file>
+    	<file alias="history">res/light/icons/history.png</file>
+    	<file alias="logo">res/light/icons/logo.png</file>
+    	<file alias="masternodes">res/light/icons/masternodes.png</file>
+    	<file alias="overview">res/light/icons/overview.png</file>
+    	<file alias="receiving_addresses">res/light/icons/receive.png</file>
+    	<file alias="send">res/light/icons/send.png</file>
+    </qresource>
+
+    <qresource prefix="/images_light">
+        <file alias="bg">res/light/images/bg.png</file>
     </qresource>
 </RCC>

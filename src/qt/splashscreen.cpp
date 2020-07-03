@@ -58,12 +58,12 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle* networkStyle) 
         fontFactor = 0.75;
     }
 
-    pixPaint.setFont(QFont(font, 28 * fontFactor));
+    pixPaint.setFont(QFont(font, 11 * fontFactor));
     fm = pixPaint.fontMetrics();
     //titleTextWidth = fm.width(titleText);
     pixPaint.drawText(paddingLeft, paddingTop, titleText);
 
-    pixPaint.setFont(QFont(font, 15 * fontFactor));
+    pixPaint.setFont(QFont(font, 11 * fontFactor));
     pixPaint.drawText(paddingLeft, paddingTop + titleVersionVSpace, versionText);
 
     // draw copyright stuff
@@ -74,7 +74,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle* networkStyle) 
 
     // draw additional text if special network
     if (!titleAddText.isEmpty()) {
-        QFont boldFont = QFont(font, 10 * fontFactor);
+        QFont boldFont = QFont(font, 11 * fontFactor);
         boldFont.setWeight(QFont::Bold);
         pixPaint.setFont(boldFont);
         fm = pixPaint.fontMetrics();

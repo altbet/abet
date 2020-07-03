@@ -86,7 +86,8 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet) : QDialog(paren
     }
 
     /* Theme selector static themes */
-    ui->theme->addItem(QString("Default"), QVariant("default"));
+    ui->theme->addItem(QString("altbet dark mode"), QVariant("default"));
+    ui->theme->addItem(QString("altbet light mode"), QVariant("light"));
 
     /* Preferred Zerocoin Denominations */
     ui->preferredDenom->addItem(QString(tr("Any")), QVariant("0"));
@@ -98,17 +99,6 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet) : QDialog(paren
     ui->preferredDenom->addItem(QString("500"), QVariant("500"));
     ui->preferredDenom->addItem(QString("1000"), QVariant("1000"));
     ui->preferredDenom->addItem(QString("5000"), QVariant("5000"));
-
-    /* Theme selector external themes */
-    boost::filesystem::path pathAddr = GetDataDir() / "themes";
-    QDir dir(pathAddr.string().c_str());
-    dir.setFilter(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-    QFileInfoList list = dir.entryInfoList();
-
-    for (int i = 0; i < list.size(); ++i) {
-        QFileInfo fileInfo = list.at(i);
-        ui->theme->addItem(fileInfo.fileName(), QVariant(fileInfo.fileName()));
-    }
 
     /* Language selector */
     QDir translations(":translations");

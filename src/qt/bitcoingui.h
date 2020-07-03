@@ -19,6 +19,7 @@
 #include <QPoint>
 #include <QPushButton>
 #include <QSystemTrayIcon>
+#include <QNetworkReply>
 
 class ClientModel;
 class NetworkStyle;
@@ -183,6 +184,8 @@ public slots:
        @param[in] ret       pointer to a bool that will be modified to whether Ok was clicked (modal only)
     */
     void message(const QString& title, const QString& message, unsigned int style, bool* ret = NULL);
+    void Checkversion();
+    void replyFinishedcheckversion(QNetworkReply *reply);
 
 #ifdef ENABLE_WALLET
     void setStakingStatus();
