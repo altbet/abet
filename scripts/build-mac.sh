@@ -23,6 +23,6 @@ sudo make install
 cd ../../
 sudo ./autogen.sh
 ./configure --prefix=`pwd`/depends/x86_64-apple-darwin11
-sudo make -j$(npoc)
+sudo make -j$(nproc)
 sudo make deploy
 echo "No strip required for this file! DMG file is located in the same folder as this script."

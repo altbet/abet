@@ -17,7 +17,7 @@ sudo apt install g++-mingw-w64-i686 mingw-w64-i686-dev
 sudo update-alternatives --config i686-w64-mingw32-g++
 PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
 cd depends
-make -j$(npoc) HOST=i686-w64-mingw32
+make -j$(nproc) HOST=i686-w64-mingw32
 
 cd ..
 cd scripts

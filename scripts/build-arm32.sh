@@ -5,7 +5,7 @@ chmod 777 -R *
 sudo apt-get update
 sudo apt-get -y upgrade
 cd `pwd`/depends
-sudo make -j$(npoc) HOST=arm-linux-gnueabihf
+sudo make -j$(nproc) HOST=arm-linux-gnueabihf
 cd ..
 sudo ./autogen.sh
 mkdir `pwd`/db4
@@ -17,5 +17,5 @@ sudo make install
 cd ../../
 sudo ./autogen.sh
 ./configure LDFLAGS="-L`pwd`/db4/lib/" CPPFLAGS="-I`pwd`/db4/include/" --prefix=`pwd`/depends/arm-linux-gnueabihf --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++
-sudo make -j$(npoc)
+sudo make -j$(nproc)
 echo "Remember to strip the daemon, cli, and tx files!"
